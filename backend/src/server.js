@@ -11,7 +11,7 @@ app.get("/health", (req,res)=>{
 const startServer = async() => {
     try {
         await connectDB()
-        app.listen(ENV.PROT, ()=> console.log("Server is listening on port:", ENV.PROT));
+        app.listen(ENV.PORT, ()=> console.log("Server is listening on port:", ENV.PORT));
     } catch (error) {
         console.error("💣 Error Starting the Server", error)
     }
