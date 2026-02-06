@@ -2,9 +2,11 @@ import express from "express"
 import { ENV } from "./lib/env.js"
 import { connectDB } from "./lib/db.js";
 import {serve} from "inngest/express"
+import { clerkMiddleware } from '@clerk/express'
 import cors from "cors";
 import { inngest, functions } from "./lib/inngest.js";
 import path from "path";
+import chatRoutes from "./routes/chatRoutes.js"
 
 const app = express();
 
@@ -15,16 +17,17 @@ app.use(express.json())
 
 //credentials:true meaning?? => our server allows a browser to include cookies on request
 app.use(cors({origin:ENV.CLIENT_URL, credentials:true}))
-app.use("/api/inngest", serve({ client: inngest, functions }))
+app.use(clerkMiddleware()); // this adds auth field to request object: req.auth()
+
+app.use("/api/inngest", serve({ client: inngest, functions }));
+app.use("/api/chat", chatRoutes)
 
 
 app.get("/health", (req,res)=>{
     res.status(200).json({msg:"api is up and running"})
 })
 
-app.get("/books", (req,res)=>{
-    res.status(200).json({msg:"this is book endpoint"})
-})
+
 
 // make our app ready for deployment
 if(ENV.NODE_ENV === "production"){
