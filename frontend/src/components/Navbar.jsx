@@ -5,7 +5,6 @@ import { UserButton } from "@clerk/clerk-react";
 function Navbar() {
   const location = useLocation();
 
-  console.log(location);
 
   const isActive = (path) => location.pathname === path;
 
@@ -62,7 +61,7 @@ function Navbar() {
           >
             <div className="flex items-center gap-x-2.5">
               <LayoutDashboardIcon className="size-4" />
-              <span className="font-medium hidden sm:inline">Dashbord</span>
+              <span className="font-medium hidden sm:inline">Dashboard</span>
             </div>
           </Link>
 
