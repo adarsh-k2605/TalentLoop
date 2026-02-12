@@ -1,8 +1,8 @@
 import axios from "axios"
 
 const apiUrl = import.meta.env.VITE_API_URL;
-// Ensure baseURL ends with / so relative paths (e.g. "sessions") resolve correctly under /api
-const baseURL = apiUrl?.replace(/\/?$/, "/");
+// Use origin as baseURL so full paths like /api/sessions resolve correctly
+const baseURL = apiUrl ? new URL(apiUrl.trim()).origin : undefined;
 
 const axiosInstance = axios.create({
     baseURL,
