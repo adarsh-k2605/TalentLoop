@@ -12,7 +12,13 @@ export const useCreateSession = () => {
       queryClient.invalidateQueries({ queryKey: ["activeSessions"] });
       queryClient.invalidateQueries({ queryKey: ["myRecentSessions"] });
     },
-    onError: (error) => toast.error(error.response?.data?.message || "Failed to create room"),
+    onError: (error) => {
+      const msg =
+        error.response?.data?.message ||
+        error.message ||
+        (error.code === "ERR_NETWORK" ? "Cannot reach server. Check API URL in production." : "Failed to create room");
+      toast.error(msg);
+    },
   });
 
   return result;
