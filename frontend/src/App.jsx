@@ -1,15 +1,19 @@
 import { Navigate, Route, Routes } from 'react-router';
 import HomePage from './pages/HomePage';
 import ProblemsPage from './pages/ProblemsPage';
-import { useUser } from '@clerk/clerk-react';
-import {Toaster} from 'react-hot-toast'
+import { useAuth, useUser } from '@clerk/clerk-react';
+import { Toaster } from 'react-hot-toast';
+import { setAuthTokenGetter } from './lib/authToken.js';
 import DashboardPage from './pages/DashboardPage';
 import ProblemPage from './pages/ProblemPage';
 import SessionPage from './pages/SessionPage';
 
 function App() {
- 
-  const {isSignedIn, isLoaded} = useUser();
+  const { isSignedIn, isLoaded } = useUser();
+  const { getToken } = useAuth();
+
+  // Required for cross-origin API auth: pass Bearer token in Authorization header
+  setAuthTokenGetter(getToken);
 // This will eliminate the flickering effect
 
   if(!isLoaded) return null ;
