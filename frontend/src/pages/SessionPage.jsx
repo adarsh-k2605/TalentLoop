@@ -83,9 +83,15 @@ function SessionPage() {
     setIsRunning(true);
     setOutput(null);
 
-    const result = await executeCode(selectedLanguage, code);
-    setOutput(result);
-    setIsRunning(false);
+     try {
+        const result = await executeCode(selectedLanguage, code);
+       setOutput(result);
+      } catch (error) {
+       console.error("Code execution failed:", error);
+        // setOutput(...) in a shape OutputPanel expects
+     } finally {
+        setIsRunning(false);
+      }
   };
 
   const handleEndSession = () => {
